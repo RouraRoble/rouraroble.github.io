@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import { site, products } from '../site.config';
+import { absoluteUrl } from '../lib/url';
+
+const faqs = [
+  { q: 'Are these tools really free?', a: 'Yes. Every tool is free to use without an account. Some pages may show clearly labelled ads or affiliate links to cover hosting.' },
+  { q: 'Where does my data go?', a: 'Nowhere. Inputs and files are processed in your browser. Preferences are stored in your own browser storage and can be cleared at any time.' },
+  { q: 'Who builds them?', a: 'Roura Labs is an independent studio. Each tool documents its methodology and data sources on its own About page.' },
+];
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Roura Labs tools',
+  itemListElement: products.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.name,
+    description: p.blurb,
+    url: absoluteUrl(`/${p.slug}/`),
+  })),
+};
+---
+
+<Base title={`${site.name} — ${site.tagline}`} description={site.description} jsonLd={itemList}>
+  <section class="hero container">
+    <p class="eyebrow">Free · No sign-up · Runs in your browser</p>
+    <h1>Small tools that do one job well.</h1>
+    <p class="lead">
+      Ten focused web products for everyday decisions, money, kitchen, study, travel, images and work. No accounts, no uploads,
+      and a link you can share for every result.
+    </p>
+  </section>
+
+  <section class="container" aria-labelledby="products-title">
+    <h2 id="products-title" class="visually-hidden">Products</h2>
+    <ul class="products">
+      {
+        products.map((p) => (
+          <li class="product">
+            <a href={`https://rouraroble.github.io/${p.slug}/`} class="product__link">
+              <span class="product__tag">{p.tag}</span>
+              <span class="product__name">{p.name}</span>
+              <span class="product__blurb">{p.blurb}</span>
+              <span class="product__cta" aria-hidden="true">Open →</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container container--narrow principles">
+    <h2>How every tool is built</h2>
+    <ul>
+      <li><strong>Private by design.</strong> Inputs, files and history stay in your browser. There are no accounts and no tracking cookies; only an anonymous, cookieless page-view count.</li>
+      <li><strong>Sourced data.</strong> Holiday, price-index, ingredient and country data come from official or open datasets, named on each tool's About page with licence and retrieval date.</li>
+      <li><strong>Shareable results.</strong> Every result lives in the link, so a shared URL reproduces exactly what you saw.</li>
+      <li><strong>Fast and accessible.</strong> Static pages, no heavy scripts, keyboard operable, tested at phone widths from 320 px up.</li>
+    </ul>
+    <p class="muted small">Last updated 23 September 2026. Independent audits of each product are repeated before and after every release.</p>
+  </section>
+
+  <section class="container container--narrow">
+    <Faq items={faqs} />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-12) var(--space-8);
+    max-width: 52rem;
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+  .products {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  }
+  .product__link {
+    display: grid;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elevated);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+  .product__link:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .product__tag {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .product__name {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .product__blurb {
+    color: var(--fg-muted);
+  }
+  .product__cta {
+    margin-top: auto;
+    font-weight: 600;
+    color: var(--accent);
+  }
+</style>

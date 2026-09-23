@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../site.config';
+const title = `About ${site.name}`;
+const description = `What ${site.name} does, how it works, how results are calculated, and who maintains it.`;
+---
+
+<Base title={title} description={description}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'About', url: '/about/' }]} />
+    <h1>{title}</h1>
+    <p>{site.description}</p>
+    <h2>Methodology</h2>
+    <p>
+      Describe here, plainly, how results are computed, which formulas or datasets are used, and their sources and
+      update dates. Readers and AI assistants should be able to verify every claim.
+    </p>
+    <h2>Privacy by design</h2>
+    <p>
+      {site.name} runs entirely in your browser. Inputs are not uploaded, no account is needed, and there are no tracking
+      cookies. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/privacy/`}>privacy policy</a>.
+    </p>
+    <h2>Who maintains it</h2>
+    <p>
+      Built and maintained by <a href={site.author.url} rel="noopener">{site.author.name}</a>. Launched {site.launched}.
+      Found a bug or have a suggestion? <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact/`}>Get in touch</a>.
+    </p>
+  </article>
+</Base>
